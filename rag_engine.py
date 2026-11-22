@@ -1,4 +1,4 @@
-
+import streamlit as st
 import os
 import json
 import unicodedata
@@ -22,14 +22,23 @@ NAMESPACE = "bncc-computacao"
 # CONEXÕES
 # ==========================================
 
+
 def conectar_servicos():
 
-    gemini_key = os.getenv("GEMINI_API_KEY")
-    pinecone_key = os.getenv("PINECONE_API_KEY")
+    gemini_key = st.secrets.get(
+        "GEMINI_API_KEY",
+        os.getenv("GEMINI_API_KEY")
+    )
+
+    pinecone_key = st.secrets.get(
+        "PINECONE_API_KEY",
+        os.getenv("PINECONE_API_KEY")
+    )
 
     if not gemini_key or not pinecone_key:
         raise ValueError(
-            "Configure GEMINI_API_KEY e PINECONE_API_KEY."
+            "Configure GEMINI_API_KEY e PINECONE_API_KEY "
+            "nas configurações de Secrets."
         )
 
     client = genai.Client(api_key=gemini_key)
