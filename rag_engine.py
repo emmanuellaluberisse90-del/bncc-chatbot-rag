@@ -13,7 +13,7 @@ from pinecone import Pinecone
 # ==========================================
 
 MODELO_EMBEDDING = "gemini-embedding-001"
-MODELO_GERACAO = "gemini-3.5-flash"
+MODELO_GERACAO = "gemini-3.6-flash"
 
 NOME_INDEX = "bncc-computacao-v2"
 NAMESPACE = "bncc-computacao"
