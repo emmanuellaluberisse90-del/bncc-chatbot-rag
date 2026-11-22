@@ -286,3 +286,50 @@ def buscar_contexto_relevante(
                 })
 
     return contexto_relevante
+
+
+
+# ==========================================
+# BUSCA BRUTA PARA AVALIAÇÃO DO RETRIEVAL
+# ==========================================
+
+def buscar_resultados_avaliacao(
+    client,
+    index,
+    pergunta,
+    top_k=5,
+    documento_forcado=None
+):
+
+    # Recuperar os resultados do Pinecone
+    resultados = buscar_documentos_inteligente(
+        client,
+        index,
+        pergunta,
+        top_k=top_k,
+        documento_forcado=documento_forcado
+    )
+
+    resultados_unificados = []
+
+    # Reunir os resultados dos documentos
+    for documento, matches in resultados.items():
+
+        for item in matches:
+
+            resultados_unificados.append({
+                "id": item.id,
+                "documento": documento,
+                "similaridade": float(item.score),
+                "texto": item.metadata.get("texto", "")
+            })
+
+    # Ordenar pela maior similaridade
+    resultados_unificados.sort(
+        key=lambda x: x["similaridade"],
+        reverse=True
+    )
+
+    # Manter somente os K melhores resultados
+    return resultados_unificados[:top_k]
+
