@@ -253,7 +253,7 @@ if pergunta:
                     client,
                     index,
                     pergunta_contextualizada,
-                    top_k=5,
+                    top_k=10 if documento_forcado else 5,
                     documento_forcado=documento_forcado
                 )
 
